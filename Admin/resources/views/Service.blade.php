@@ -75,9 +75,9 @@
   function getServiceData(){
     axios.get('/getServiceData')// When this function exicute it hit this get route. Then (routes/web.php) call related controller meathoad to perform retrive data.
     .then(function (response) {// when ajax request is send it recive a response
-        if(response.status==200){
-            // Hide Data Loader
-            $('#loaderDiv').addClass('d-none');
+        if(response.status==200){ // if response is successfully done
+            
+            $('#loaderDiv').addClass('d-none');// Hide Data Loader
             
             $('#mainDiv').removeClass('d-none');// Show Table
             
@@ -93,10 +93,6 @@
                     "<td><a class='serviceEditBtn' data-id="+dataJSON[i].id+"><i class='fas fa-edit'></i></a></td>"+
                     "<td><a class='serviceDeleteBtn' data-id="+dataJSON[i].id+"><i class='fas fa-trash-alt'></i></a></td>").appendTo('#service_table');
             });
-
-
-
-
         }else{
             $('#wrongDiv').removeClass('d-none'); // Show warning message
             $('#loaderDiv').addClass('d-none'); // Hide data loader
