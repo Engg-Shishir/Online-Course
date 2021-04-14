@@ -23,6 +23,8 @@
 
     @include('layouts.menu')  {{-- Here include menubar --}}
 
+
+    {{-- Here show blade.php file content --}}
     @yield('content')
 
     
@@ -43,5 +45,7 @@
     <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/axios.min.js')}}"></script>
     
+    {{-- Here show required javascript file for specific blade.php file --}}
+    @yield('script')
 </body>
 </html>

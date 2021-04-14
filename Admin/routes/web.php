@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,11 @@ use App\Http\Controllers\VisitorController;
 |
 */
 
+// Show Admin Home page
 Route::get('/',[HomeController::class,'HomeIndex']);
+
+// Show Admin Visitor page
 Route::get('/visitor',[VisitorController::class,'VisitorIndex']);
+
+// Show Admin Service page
+Route::get('/service',[ServiceController::class,'ServiceIndex']);
