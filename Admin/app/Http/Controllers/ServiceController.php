@@ -18,4 +18,23 @@ class ServiceController extends Controller
         // return getting data who send request to do this. That is script getServiceData() meathoad.
         return $serviceData;
     }
+
+
+    // Add New Service
+    function addService(Request $request){
+        // Access sending Request Data
+        $name = $request->input('name');
+        $des = $request->input('des');
+        $img = $request->input('img');
+        
+        // Insert Data
+        $result = Service::insert(['service_name'=>$name,'service_des'=>$des,'service_img'=>$img]);
+        
+        // If Data insert properly
+        if($result==true){
+            return 1;// return which function send request
+        }else{
+            return 0;
+        }
+    }
 }

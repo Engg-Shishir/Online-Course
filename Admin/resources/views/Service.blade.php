@@ -7,6 +7,8 @@
 <div id="mainDiv" class="container d-none">
     <div class="row">
         <div class="col-md-12 p-5"> 
+            {{-- Add New Service Button  --}}
+            <button id="addNewService" class="btn btn-sm btn-danger my-3"><b>Add New +</b></button>
 
             <table  id="serviceDt" class="table table-striped table-sm table-bordered" cellspacing="0" width="100%">
                 <thead>
@@ -53,6 +55,29 @@
 
 
 
+{{-- Add New Service Modal Start---- Add New Service Modal Start--}}
+<div class="modal fade"id="addServiceModal"data-backdrop="static"data-keyboard="false"tabindex="-1"aria-labelledby="addModalLabel"aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-body p-5">
+                <h3 class="text-center text-danger w-900 mb-4">Add New Service</h3>
+                <div id="addServiceForm" class="w-100">
+                <input type="text" id="addServiceName" class="form-control my-1" placeholder="Service Name"/>
+
+                <input type="text" id="addServiceDescription" class="form-control my-1" placeholder="Service Description"/>
+
+                <input type="text" id="addServiceImage" class="form-control my-1" placeholder="Service Image Link"/>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Cancel</button>
+                <button data-id="" id="addServiceConfirm" type="button" class="btn btn-danger btn-sm">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Add New Service Modal End---- Add New Service Modal End--}}
 @endsection
 
 
@@ -60,19 +85,20 @@
 
 @section('script')
 <script type="text/javascript">
-  // At first this script load this meathoad
-  getServiceData();
+
+// At first this script load this meathoad
+getServiceData();
 
 
-  // Code for Datatable 
-  $(document).ready(function () {
-        $('#serviceDt').DataTable();
-        $('.dataTables_length').addClass('bs-select');
-  });
+// Code for Datatable 
+$(document).ready(function () {
+    $('#serviceDt').DataTable();
+    $('.dataTables_length').addClass('bs-select');
+});
 
 
-  // Send Ajax Request To Access Service Data
-  function getServiceData(){
+// Send Ajax Request To Access Service Data
+function getServiceData(){
     axios.get('/getServiceData')// When this function exicute it hit this get route. Then (routes/web.php) call related controller meathoad to perform retrive data.
     .then(function (response) {// when ajax request is send it recive a response
         if(response.status==200){ // if response is successfully done
@@ -102,6 +128,67 @@
         $('#wrongDiv').removeClass('d-none'); // Show warning message
         $('#loaderDiv').addClass('d-none'); // Hide data loader
     });
+}
+
+
+
+// Add New Service
+$('#addNewService').click(function(){ // open Add M<odal
+    $('#addServiceModal').modal('show');
+})
+
+$('#addServiceConfirm').click(function(){ // Confirm for adding
+    var name = $('#addServiceName').val();
+    var des = $('#addServiceDescription').val();
+    var img = $('#addServiceImage').val();
+    addService(name,des,img);
+
+})
+
+function addService(addServiceName,addServiceDes,addServiceImg){
+    if(addServiceName.length==0)// If Service Name Length is Zero
+    {
+        toastr.error('Ensert Service Name');
+    }else if(addServiceDes.length==0){// If Service Description Length is Zero
+        toastr.error('Ensert Service Description');
+    }else if(addServiceImg.length==0){// If Service Image Length is Zero
+        toastr.error('Ensert Service Image');
+    }else{// If Evrything is fine
+        $('#addServiceConfirm').html("Saving..<div class='spinner-border spinner-border-sm'role='status'></div>");// Show a spinner inside save button
+        axios.post('/addService',{// Send ajax post request to pass data. When  function exicute it hit this post route. Then (routes/web.php) call related controller meathoad to perform add data.
+            name:addServiceName,
+            des:addServiceDes,
+            img:addServiceImg
+        })
+        .then(function (response) {// when ajax request is send it recive a response
+            $('#addServiceConfirm').html("Save");// Set default Save text inside button
+            if(response.status==200) // if response is successfully done
+            {
+                if(response.data==1){
+                    // Blank form input field
+                    $('#addServiceName').val('');
+                    $('#addServiceDescription').val('');
+                    $('#addServiceImage').val('');
+                    $('#addServiceModal').modal('hide');
+
+                    getServiceData(); // again call this function to sea instant change in database
+
+                    toastr.success('Add Successfully');// Show toaster alert Success mesage
+                }else{
+                    toastr.error('Add Fail');// Show toaster alert Warning mesage
+                }
+            }else{
+                toastr.error('Somethimg Gone Wrong');// Show toaster alert Warning mesage.Suppose net connection somehow off.
+            }
+        })
+        .catch(function (error) {
+            toastr.error('Somethimg Gone Wrong');// Show toaster alert Warning mesage.Suppose net connection somehow off.
+        });
     }
+
+
+}
+
+
 </script>
 @endsection

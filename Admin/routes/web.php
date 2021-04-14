@@ -28,3 +28,7 @@ Route::get('/service',[ServiceController::class,'ServiceIndex']);
 
 // Show all service data from database
 Route::get('/getServiceData',[ServiceController::class,'GetServiceData']);
+
+
+// Add New Service
+Route::post('/addService',[ServiceController::class,'addService']);
