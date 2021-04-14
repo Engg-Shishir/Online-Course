@@ -11,4 +11,11 @@ class ServiceController extends Controller
     function ServiceIndex(){
         return view('Service');
     }
+
+    // Show all service data from database
+    function GetServiceData(){
+        $serviceData = json_encode(Service::orderBy('id','DESC')->get(),true);
+        // return getting data who send request to do this. That is script getServiceData() meathoad.
+        return $serviceData;
+    }
 }

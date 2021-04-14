@@ -24,3 +24,7 @@ Route::get('/visitor',[VisitorController::class,'VisitorIndex']);
 
 // Show Admin Service page
 Route::get('/service',[ServiceController::class,'ServiceIndex']);
+
+
+// Show all service data from database
+Route::get('/getServiceData',[ServiceController::class,'GetServiceData']);

@@ -32,10 +32,46 @@
 
 @section('script')
 <script type="text/javascript">
+  // At first this script load this meathoad
+  getServiceData();
+
+
   // Code for Datatable 
   $(document).ready(function () {
         $('#serviceDt').DataTable();
         $('.dataTables_length').addClass('bs-select');
   });
+
+
+  // Send Ajax Request To Access Service Data
+  function getServiceData(){
+    // When this function exicute it hit this get route. Then (routes/web.php) call related controller meathoad to perform retrive data.
+    axios.get('/getServiceData')
+    // when ajax request is send it recive a response
+    .then(function (response) {
+        if(response.status==200){
+            // access response data
+            var dataJSON=response.data;
+            // make loop with each() function to create dynamic service table data  use appendTo() meathoad.
+            $.each(dataJSON, function(i, item) {
+                $('<tr>').html(
+                    "<td> <img class='table-img' src="+dataJSON[i].service_img+"></td>"+
+                    "<td>"+dataJSON[i].service_name+"</td>"+
+                    "<td>"+dataJSON[i].service_des+"</td>"+
+                    "<td><a class='serviceEditBtn' data-id="+dataJSON[i].id+"><i class='fas fa-edit'></i></a></td>"+
+                    "<td><a class='serviceDeleteBtn' data-id="+dataJSON[i].id+"><i class='fas fa-trash-alt'></i></a></td>").appendTo('#service_table');
+            });
+
+
+
+
+        }else{
+
+        }
+
+    }).catch(function (error) {
+
+    });
+    }
 </script>
 @endsection
