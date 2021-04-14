@@ -3,7 +3,8 @@
 
 
 @section('content')
-<div id="mainDiv" class="container">
+{{-- Service Table Start ---- Service Table Start --}}
+<div id="mainDiv" class="container d-none">
     <div class="row">
         <div class="col-md-12 p-5"> 
 
@@ -25,6 +26,33 @@
         </div>
     </div>
 </div>
+{{-- Service Table End ---- Service Table End --}}
+
+
+
+{{-- Data Loader Start ---- Data Loader Start --}}
+<div id="loaderDiv" class="container">
+    <div class="row">
+        <div class="col-md-12 p-5 text-center">
+          <img class="loading-icon m-5" src="{{asset('images/loader.svg')}}" alt="">
+        </div>
+    </div>
+</div>
+{{-- Data Loader End ---- Data Loader End --}}
+
+
+{{-- Warnig Message Start---- Warnig Message Start--}}
+<div id="wrongDiv" class="container d-none">
+    <div class="row">
+        <div class="col-md-12 p-5 text-center">
+            <h3>Data Not Found.... Something went wrong</h3>
+        </div>
+    </div>
+</div>
+{{-- Warnig Message End---- Warnig Message End--}}
+
+
+
 @endsection
 
 
@@ -45,15 +73,19 @@
 
   // Send Ajax Request To Access Service Data
   function getServiceData(){
-    // When this function exicute it hit this get route. Then (routes/web.php) call related controller meathoad to perform retrive data.
-    axios.get('/getServiceData')
-    // when ajax request is send it recive a response
-    .then(function (response) {
+    axios.get('/getServiceData')// When this function exicute it hit this get route. Then (routes/web.php) call related controller meathoad to perform retrive data.
+    .then(function (response) {// when ajax request is send it recive a response
         if(response.status==200){
-            // access response data
-            var dataJSON=response.data;
-            // make loop with each() function to create dynamic service table data  use appendTo() meathoad.
-            $.each(dataJSON, function(i, item) {
+            // Hide Data Loader
+            $('#loaderDiv').addClass('d-none');
+            
+            $('#mainDiv').removeClass('d-none');// Show Table
+            
+            $('#service_table').empty();// Fist Clar Table Data
+            
+            var dataJSON=response.data;// access response data
+            
+            $.each(dataJSON, function(i, item) {// make loop with each() function to create dynamic service table data  use appendTo() meathoad.
                 $('<tr>').html(
                     "<td> <img class='table-img' src="+dataJSON[i].service_img+"></td>"+
                     "<td>"+dataJSON[i].service_name+"</td>"+
@@ -66,11 +98,13 @@
 
 
         }else{
-
+            $('#wrongDiv').removeClass('d-none'); // Show warning message
+            $('#loaderDiv').addClass('d-none'); // Hide data loader
         }
 
     }).catch(function (error) {
-
+        $('#wrongDiv').removeClass('d-none'); // Show warning message
+        $('#loaderDiv').addClass('d-none'); // Hide data loader
     });
     }
 </script>
