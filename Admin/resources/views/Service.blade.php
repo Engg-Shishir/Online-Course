@@ -103,6 +103,47 @@
 
 
 
+{{-- Edit Service Modal Start ---- Edit Service Modal Start --}}
+<div class="modal fade"id="editSeriviceModal"data-backdrop="static"data-keyboard="false"tabindex="-1"
+aria-labelledby="editModalLabel"aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-body p-5">
+
+                <h3 class="text-center d-none" id="serviceEditId"></h3>
+                
+                {{-- Upadate Form --}}
+                <div id="serviceEditForm" class="w-100 d-none">
+                    <input type="text" id="serviceNameId" class="form-control my-1" placeholder="Service Name"/>
+
+                    <input type="text" id="serviceDescriptionId" class="form-control my-1" placeholder="Service Description"/>
+
+                    <input type="text" id="serviceImageId" class="form-control my-1" placeholder="Service Image Link"/>
+                </div>
+                
+                {{-- Upadate Loader --}}
+                <div id="serviceEditLoader" style="width: 100% !important;display:flex;align-items:center;justify-content:center;">
+                    <img class="loading-icon m-5 " src="{{asset('images/loader.svg')}}" alt="">
+                </div>
+                
+                {{-- Warning message --}}
+                <div id="serviceEditWrong" style="width: 100% !important;display:flex;align-items:center;justify-content:center;">
+                    <h5  class="text-center d-none">Data Not Found.... Something went wrong</h5>
+                </div>
+            
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">
+                Cancel
+            </button>
+            {{-- Update Confirm Button --}}
+            <button data-id="" id="serviceUpdateConfirm" type="button" class="btn btn-danger btn-sm">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Edit Service Modal End ---- Edit Service Modal End --}}
+
 
 @endsection
 
@@ -155,6 +196,15 @@ function getServiceData(){
                $('#deleteServiceModal').modal('show');
             })
 
+
+            //Service Edit Btn Click
+            $('.serviceEditBtn').click(function(){
+                var id = $(this).data('id');
+                $('#serviceEditId').html(id);
+                serviceUpdateDetails(id);
+                $('#editSeriviceModal').modal('show');
+            })
+
         }else{
             $('#wrongDiv').removeClass('d-none'); // Show warning message
             $('#loaderDiv').addClass('d-none'); // Hide data loader
@@ -166,13 +216,10 @@ function getServiceData(){
     });
 }
 
-
-
 // Add New Service
-$('#addNewService').click(function(){ // open Add M<odal
+$('#addNewService').click(function(){ // open Add Modal
     $('#addServiceModal').modal('show');
 })
-
 $('#addServiceConfirm').click(function(){ // Confirm for adding
     var name = $('#addServiceName').val();
     var des = $('#addServiceDescription').val();
@@ -180,7 +227,6 @@ $('#addServiceConfirm').click(function(){ // Confirm for adding
     addService(name,des,img);
 
 })
-
 function addService(addServiceName,addServiceDes,addServiceImg){
     if(addServiceName.length==0)// If Service Name Length is Zero
     {
@@ -227,17 +273,12 @@ function addService(addServiceName,addServiceDes,addServiceImg){
 
 
 
-
-
-
-
 // Service Delete
 $('#serviceDeleteConfirm').click(function(){
     var id = $('#serviceDeleteId').html();
     serviceDelete(id);
 
 })
-
 function serviceDelete(deleteId){
     axios.post('/serviceDelete',{id:deleteId})
     .then(function (response) {
@@ -261,6 +302,80 @@ function serviceDelete(deleteId){
     });
 
 }
+
+
+
+// Each Service Update Details
+function serviceUpdateDetails(detailsId){
+    axios.post('/serviceDetails',{id:detailsId})
+    .then(function (response) {
+      if(response.status==200){
+        $('#serviceEditForm').removeClass('d-none');
+        $('#serviceEditLoader').addClass('d-none');
+
+
+          var dataJSON=response.data;
+          $('#serviceNameId').val(dataJSON[0].service_name);
+          $('#serviceDescriptionId').val(dataJSON[0].service_des);
+          $('#serviceImageId').val(dataJSON[0].service_img);
+      }else{
+          $('#serviceEditLoader').addClass('d-none');
+          $('#serviceEditWrong').removeClass('d-none');
+      }
+    })
+    .catch(function (error) {
+        $('#serviceEditLoader').addClass('d-none');
+        $('#serviceEditWrong').removeClass('d-none');
+    });
+
+}
+$('#serviceUpdateConfirm').click(function(){
+    var id = $('#serviceEditId').html();
+    var name = $('#serviceNameId').val();
+    var des = $('#serviceDescriptionId').val();
+    var img = $('#serviceImageId').val();
+    serviceUpdate(id,name,des,img);
+});
+function serviceUpdate(serviceId,serviceName,serviceDes,serviceImg){
+    /*========Form Validation==========*/
+    if(serviceName.length==0)
+    {
+        toastr.error('Ensert Service Name');
+    }else if(serviceDes.length==0){
+        toastr.error('Ensert Service Description');
+    }else if(serviceImg.length==0){
+        toastr.error('Ensert Service Image');
+    }else{
+        $('#serviceUpdateConfirm').html("Updatting..<div class='spinner-border spinner-border-sm'role='status'></div>");
+        /*========Send Post Request==========*/
+        axios.post('/serviceUpdate',{id:serviceId,name:serviceName,des:serviceDes,img:serviceImg})
+        .then(function (response) {
+            $('#serviceAddConfirm').html("Update");
+            /*========If request send successfully==========*/
+            if(response.status==200)
+            {
+                $('#editSeriviceModal').modal('hide');
+                getServiceData();
+                toastr.success('Updated Successfully');
+            }else{
+                $('#editSeriviceModal').modal('hide');
+                 getServiceData();
+                toastr.error('Update Fail');
+            }
+        })
+        .catch(function (error) {
+            $('#editSeriviceModal').modal('hide');
+            toastr.error('Somethimg Gone Wrong two');
+        });
+   
+    }
+
+
+}
+
+
+
+
 
 
 </script>
