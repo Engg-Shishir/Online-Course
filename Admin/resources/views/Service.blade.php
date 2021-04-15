@@ -78,6 +78,32 @@
     </div>
 </div>
 {{-- Add New Service Modal End---- Add New Service Modal End--}}
+
+
+
+
+{{-- Delete Service Modal Start ---- Delete Service Modal Start --}}
+<div class="modal fade"id="deleteServiceModal"data-backdrop="static"data-keyboard="false"tabindex="-1"aria-labelledby="deleteServiceModalLabel"aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5 class="text-center p-3 mt-4">Do you want to delete</h5>
+                <h3 id="serviceDeleteId"></h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">
+                    No
+                </button>
+                <button data-id="" id="serviceDeleteConfirm" type="button" class="btn btn-danger btn-sm">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Delete Service Modal End ---- Delete Service Modal End --}}
+
+
+
+
 @endsection
 
 
@@ -119,6 +145,16 @@ function getServiceData(){
                     "<td><a class='serviceEditBtn' data-id="+dataJSON[i].id+"><i class='fas fa-edit'></i></a></td>"+
                     "<td><a class='serviceDeleteBtn' data-id="+dataJSON[i].id+"><i class='fas fa-trash-alt'></i></a></td>").appendTo('#service_table');
             });
+
+            // Open Delete Service Modal 
+            // This function wrote here because (serviceDeleteBtn) is written this section. Otherwise it is not work
+            $('.serviceDeleteBtn').click(function(){
+               var id = $(this).data('id');
+               //$('#serviceDeleteConfirm').attr('data-id',id);
+               $('#serviceDeleteId').html(id);
+               $('#deleteServiceModal').modal('show');
+            })
+
         }else{
             $('#wrongDiv').removeClass('d-none'); // Show warning message
             $('#loaderDiv').addClass('d-none'); // Hide data loader
@@ -186,6 +222,43 @@ function addService(addServiceName,addServiceDes,addServiceImg){
         });
     }
 
+
+}
+
+
+
+
+
+
+
+// Service Delete
+$('#serviceDeleteConfirm').click(function(){
+    var id = $('#serviceDeleteId').html();
+    serviceDelete(id);
+
+})
+
+function serviceDelete(deleteId){
+    axios.post('/serviceDelete',{id:deleteId})
+    .then(function (response) {
+        if(response.status==200){
+            if(response.data==1){
+                   $('#deleteServiceModal').modal('hide');
+                   getServiceData();
+                   toastr.success('Deleted Successfully');
+            }else{
+                $('#deleteServiceModal').modal('hide');
+                getServiceData();
+               toastr.error('Delete Fail');
+            }
+        }else{
+            $('#deleteServiceModal').modal('hide');
+            toastr.error('Somethimg Gone Wrong');
+        }
+    })
+    .catch(function (error) {
+        toastr.error('Somethimg Gone Wrong');
+    });
 
 }
 

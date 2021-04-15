@@ -32,3 +32,7 @@ Route::get('/getServiceData',[ServiceController::class,'GetServiceData']);
 
 // Add New Service
 Route::post('/addService',[ServiceController::class,'addService']);
+
+
+// Delete Service
+Route::post('/serviceDelete',[ServiceController::class,'serviceDelete']);
