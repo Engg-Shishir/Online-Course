@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\VisitorModel;
 use App\Models\Service;
+use App\Models\Course;
 
 
 class HomeController extends Controller
@@ -22,7 +23,13 @@ class HomeController extends Controller
 
         // Get All Service data and show in home page
         $serviceData = json_decode(Service::all(),true);
-        return view('home',['serviceData'=>$serviceData]);
+
+        $courseData  = json_decode(Course::orderBy('id','DESC')->take(6)->get(),true);
+
+        return view('home',['serviceData'=>$serviceData,'courseData'=>$courseData]);
+
+
+
 
     }
-}
+} 
