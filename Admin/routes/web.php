@@ -55,3 +55,12 @@ Route::post('/courseDelete',[CourseCntroller::class,'courseDelete']);
 Route::post('/courseDetails',[CourseCntroller::class,'getCourseDetails']);
 // Update service data
 Route::post('/courseUpdate',[CourseCntroller::class,'courseUpdate']);
+
+
+
+// Admin Login Form
+Route::get('/Login', [LoginController::class,'LoginIndex']);
+// Try Admin Login 
+Route::post('/onLogin', [LoginController::class,'onLogin']);
+// Admin Logout
+Route::get('/Logout', [LoginController::class,'onLogout']);
