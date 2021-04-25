@@ -61,10 +61,10 @@ Route::post('/courseUpdate',[CourseCntroller::class,'courseUpdate'])->middleware
 
 
 
-// Admin Panel Review Management
+// Admin Login
 Route::get('/Login', [LoginController::class,'LoginIndex']);
-// Admin Panel Review Management
+// Try Admin Login 
 Route::post('/onLogin', [LoginController::class,'onLogin']);
-// Admin Panel Review Management
+// Admin Logout
 Route::get('/Logout', [LoginController::class,'onLogout'])->middleware('loginCheck');
 
