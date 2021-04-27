@@ -42,3 +42,17 @@
     </div>
 
 @endsection
+@section('script')
+<script type="text/javascript">
+    
+    // Show Image preview when image is chose
+    $('#imgInput').change(function () {
+        var reader=new FileReader(); // File reader object
+        reader.readAsDataURL(this.files[0]); // read data
+        reader.onload=function (event) {
+            var ImgSource= event.target.result;
+            $('#imgPreview').attr('src',ImgSource)
+        }
+    });
+</script>
+@endsection
