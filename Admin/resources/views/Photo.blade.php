@@ -5,7 +5,7 @@
     <div class="container-fluid m-0 ">
         <div class="row">
             <div class="col-md-12">
-                <button data-toggle="modal" data-target="#PhotoModal" id="addNewPhotoBtnId" class="btn my-3 btn-sm btn-danger">Add New </button>
+                <button data-toggle="modal" data-target="#PhotoModal" id="addNewPhotoBtnId" class="btn my-3 btn-sm btn-success">Add New </button>
             </div>
         </div>
         <div class="row photoRow">
@@ -44,6 +44,9 @@
 @endsection
 @section('script')
 <script type="text/javascript">
+
+    // Call LoadPhoto() 
+    LoadPhoto();
     
     // Show Image preview when image is chose
     $('#imgInput').change(function () {
@@ -90,5 +93,47 @@
         })
 
     });
+
+
+    var  ImgID=0;
+    //Load photo inside admin view
+    function LoadPhoto() {
+        var URL="/LoadPhoto";
+        // Send ajax request
+        axios.get(URL).then(function (response) {
+            
+            console.log(response.data);
+            var length = response.data.length;
+            console.log(length);
+
+            if(length < 6){
+                toastr.error('First Insert Some Image');
+            }else{
+                ImgID = response.data[5]['id'];             
+                // Load image dynamacally
+                $.each(response.data, function(i, item) {
+                    $("<div class='col-md-4 p-1'>").html(
+                        "<img data-id="+ item['id']+" class='imgOnRow' src=" + item['location'] + ">"+
+                        "<button onclick='deletePhotoByOne("+ item['id']+")'  data-id="+ item['id']+" data-photo="+ item['location']+" class='btn btn-sm btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 1</button>"
+                    ).appendTo('.photoRow'); // Append
+                });
+            }
+
+
+        }).catch(function (error) {
+
+        });
+    }
+
+
+
+
+
+
+    
+
+
+
+
 </script>
 @endsection
