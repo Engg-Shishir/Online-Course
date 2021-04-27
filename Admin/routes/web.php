@@ -73,5 +73,7 @@ Route::get('/Logout', [LoginController::class,'onLogout'])->middleware('loginChe
 
 // Show Admin Gallery Veiw
 Route::get('/gallery', [PhotoController::class,'index'])->middleware('loginCheck');
+// Upload & Save Photo
+Route::post('/PhotoUpload', [PhotoController::class,'PhotoUpload'])->middleware('loginCheck');
 
 

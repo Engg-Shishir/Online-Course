@@ -54,5 +54,41 @@
             $('#imgPreview').attr('src',ImgSource)
         }
     });
+
+
+    // Upload & Save Photo
+    $('#SavePhoto').on('click',function () {
+
+        // Show spinner inside button
+        $('#SavePhoto').html("<div class='spinner-border spinner-border-sm' role='status'>Saving....</div>");
+
+        // Access photo file
+        var PhotoFile = $('#imgInput').prop('files')[0];
+
+        // Create formdata object
+        var formData  = new FormData();
+        //Bind photo file with object
+        formData.append('photo',PhotoFile);
+        //send ajax request to save data
+        axios.post("/PhotoUpload",formData).then(function (response) {
+            // If data save successfully
+            if(response.status==200 && response.data==1){
+                $('#PhotoModal').modal('hide');
+                $('#SavePhoto').html('Save');
+                // show succes Alert
+                toastr.success('Photo Upload Success');
+            }
+            else{
+                $('#PhotoModal').modal('hide');
+                // show warning Alert
+                toastr.error('Photo Upload Fail');
+            }
+        }).catch(function (error) {
+            $('#PhotoModal').modal('hide');
+            toastr.error('Photo Upload Fail');
+            $('#SavePhoto').html('Save');
+        })
+
+    });
 </script>
 @endsection
