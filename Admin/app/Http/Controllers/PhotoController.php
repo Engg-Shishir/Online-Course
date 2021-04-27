@@ -36,7 +36,31 @@ class PhotoController extends Controller
         // First only show 3 image
         $result = Photo::take(6)->get();
         return $result;
+    }   
+    
+    
+    
+    
+    
+    
+    // Load more image
+    function LoadMore(Request $request){
+        $StartImg=$request->id;
+        //return $LastID;
+        // Make discition
+        //$result = Photo::where('id','>=',$FirstID)->where('id','<',$LastID)->get();
+        //$count = Photo::count();
+        //$last = Photo::orderBy('id','desc')->first();
+        //$LastID=$last['id']+3;
+        $result = Photo::where('id','>',$StartImg)->take(3)->get();
+        
+        if($result){
+            return $result;
+        }else{
+            return 0;
+        }
     }
+
 
 
 }

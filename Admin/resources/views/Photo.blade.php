@@ -11,6 +11,7 @@
         <div class="row photoRow">
          {{-- Here dynamacally show image --}}
         </div>
+        <button class="btn btn-primary float-right " id="LoadMoreBtn"> Load More </button>
     </div>
 
 
@@ -124,6 +125,73 @@
 
         });
     }
+
+
+
+
+
+
+    // Load more image
+    $('#LoadMoreBtn').on('click',function () {
+        let FirstImgID= $(this).closest('div').find('img').data('id');
+        LoadMore(FirstImgID);
+    });
+    function LoadMore(FirstImgID){
+        var StartImg=ImgID;
+        //var PhotoID=ImgID+FirstImgID;
+        var URL="/LoadMore/"+StartImg;
+            
+            // set loader
+            $('#LoadMoreBtn').html("Load More..<div class='spinner-border spinner-border-sm'role='status'></div>")
+            // Send ajax request
+            axios.get(URL).then(function (response) {
+
+            console.log(response.data);
+            var length = response.data.length;
+            console.log(length);
+            
+
+
+            if(length==0){
+                toastr.error('No more image');
+                $('#LoadMoreBtn').html("Load More");
+            }else if(length==3){
+            ImgID = response.data[2]['id'];
+            print();
+            }else if(length==2){
+            ImgID = response.data[1]['id'];
+            print();
+            }else{
+            ImgID = response.data[0]['id'];
+            print();
+            }
+
+            function print(){
+                $('#LoadMoreBtn').html("Load More");
+                // show response data one by one
+                $.each(response.data, function(i, item) {
+                    $("<div class='col-md-4 p-1'>").html(
+                        "<img data-id="+ item['id']+" class='imgOnRow' src=" + item['location'] + ">"+
+                        "<button data-id="+ item['id']+" data-photo="+ item['location']+" class='btn btn-sm deletePhotoByTwo btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 2</button>"
+                    ).appendTo('.photoRow');
+                });
+
+                // Delete Photo By Proces Two
+                $('.deletePhotoByTwo').on('click',function (event) {
+                    var id=$(this).data('id');
+                    var photo=$(this).data('photo');
+                    deletePhotoByTwo(photo,id);
+                    event.preventDefault();
+                });
+            }
+
+
+        }).catch(function (error) {
+
+        })
+
+    }
+
 
 
 

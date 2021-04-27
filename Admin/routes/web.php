@@ -77,4 +77,6 @@ Route::get('/gallery', [PhotoController::class,'index'])->middleware('loginCheck
 Route::post('/PhotoUpload', [PhotoController::class,'PhotoUpload'])->middleware('loginCheck');
 // Load photo inside admin view
 Route::get('/LoadPhoto', [PhotoController::class,'LoadPhoto'])->middleware('loginCheck');
+// Load more image
+Route::get('/LoadMore/{id}', [PhotoController::class,'LoadMore'])->middleware('loginCheck');
 
