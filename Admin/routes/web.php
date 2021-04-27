@@ -6,6 +6,7 @@ use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CourseCntroller;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,4 +68,10 @@ Route::get('/Login', [LoginController::class,'LoginIndex']);
 Route::post('/onLogin', [LoginController::class,'onLogin']);
 // Admin Logout
 Route::get('/Logout', [LoginController::class,'onLogout'])->middleware('loginCheck');
+
+
+
+// Show Admin Gallery Veiw
+Route::get('/gallery', [PhotoController::class,'index'])->middleware('loginCheck');
+
 
