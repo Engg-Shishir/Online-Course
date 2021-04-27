@@ -115,7 +115,7 @@
                 $.each(response.data, function(i, item) {
                     $("<div class='col-md-4 p-1'>").html(
                         "<img data-id="+ item['id']+" class='imgOnRow' src=" + item['location'] + ">"+
-                        "<button onclick='deletePhotoByOne("+ item['id']+")'  data-id="+ item['id']+" data-photo="+ item['location']+" class='btn btn-sm btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 1</button>"
+                        "<button onclick='deletePhoto("+ item['id']+")'  data-id="+ item['id']+" class='btn btn-sm btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 1</button>"
                     ).appendTo('.photoRow'); // Append
                 });
             }
@@ -172,16 +172,8 @@
                 $.each(response.data, function(i, item) {
                     $("<div class='col-md-4 p-1'>").html(
                         "<img data-id="+ item['id']+" class='imgOnRow' src=" + item['location'] + ">"+
-                        "<button data-id="+ item['id']+" data-photo="+ item['location']+" class='btn btn-sm deletePhotoByTwo btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 2</button>"
+                        "<button data-id="+ item['id']+" class='btn btn-sm deletePhoto btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 2</button>"
                     ).appendTo('.photoRow');
-                });
-
-                // Delete Photo By Proces Two
-                $('.deletePhotoByTwo').on('click',function (event) {
-                    var id=$(this).data('id');
-                    var photo=$(this).data('photo');
-                    deletePhotoByTwo(photo,id);
-                    event.preventDefault();
                 });
             }
 
@@ -191,6 +183,29 @@
         })
 
     }
+
+    
+    
+
+    // Delete Photo By Proces One
+    function deletePhoto(id){
+        var URL="/deletePhoto";
+        var MyFormData=new FormData();
+        MyFormData.append('id',id);
+        // Send ajax request with formData
+        axios.post(URL,MyFormData).then(function (response) {
+            if(response.status==200 && response.data==1){
+                toastr.success('Photo Delete Success');
+                window.location.href="/gallery";
+            }
+            else{
+                toastr.error('Delete Fail Try Again');
+            }
+        }).catch(function () {
+            toastr.error('Delete Fail Try Again');
+        })
+    }
+
 
 
 

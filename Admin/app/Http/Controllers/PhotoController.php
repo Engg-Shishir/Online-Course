@@ -31,14 +31,15 @@ class PhotoController extends Controller
         return $result;
     }
 
+
+
+
     // Load photo inside admin view
     function LoadPhoto(Request $request){
         // First only show 3 image
         $result = Photo::take(6)->get();
         return $result;
     }   
-    
-    
     
     
     
@@ -60,6 +61,31 @@ class PhotoController extends Controller
             return 0;
         }
     }
+
+
+
+    
+
+    // Delete Photo 
+    function deletePhoto(Request  $request){
+        $OldPhotoID=$request->input('id'); // Access request data
+        // get specific column value from database
+        $OldPhotoURL= Photo::where('id','=',$OldPhotoID)->value('location');
+        // breake photoUrl according to /, which gives us an array
+        $OldPhotoURLArray= explode("/", $OldPhotoURL);
+        // Get array last data
+        $OldPhotoName=end($OldPhotoURLArray);
+        // Delete Photo file from Storage
+        $DeletePhotoFile= Storage::delete('public/'.$OldPhotoName);
+        // Delete Photo file location from database
+        $DeleteRow= Photo::where('id','=',$OldPhotoID)->delete(); 
+        
+        //return result who send request
+        return  $DeleteRow;
+    }
+
+
+
 
 
 

@@ -79,4 +79,6 @@ Route::post('/PhotoUpload', [PhotoController::class,'PhotoUpload'])->middleware(
 Route::get('/LoadPhoto', [PhotoController::class,'LoadPhoto'])->middleware('loginCheck');
 // Load more image
 Route::get('/LoadMore/{id}', [PhotoController::class,'LoadMore'])->middleware('loginCheck');
+// Delete Photo 
+Route::post('/deletePhoto', [PhotoController::class,'deletePhoto'])->middleware('loginCheck');
 
