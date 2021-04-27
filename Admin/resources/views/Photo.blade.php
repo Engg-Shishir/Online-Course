@@ -175,6 +175,13 @@
                         "<button data-id="+ item['id']+" class='btn btn-sm deletePhoto btn-danger'><span class='fas fa-trash'>&nbsp;&nbsp;&nbsp;</span>Delete by function 2</button>"
                     ).appendTo('.photoRow');
                 });
+
+                // Delete Photo By Proces Two
+                $('.deletePhoto').on('click',function (event) {
+                    var id=$(this).data('id');
+                    deletePhoto(id);
+                    event.preventDefault();
+                });
             }
 
 
