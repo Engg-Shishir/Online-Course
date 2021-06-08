@@ -3,7 +3,7 @@
 @section('title','Admin Login')
 @section('content')
 
-<div class="container ">
+<div class="container">
 <div class="row justify-content-center d-flex mt-5 mb-5">
 
 <div class="col-md-10 card">

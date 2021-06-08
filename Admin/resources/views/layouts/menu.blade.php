@@ -28,6 +28,13 @@
                     <li> <a href="{{url('/course')}}" ><span> <i class="fas fa-book-open"></i> </span><span class="hide-menu">Course</span></a></li>
                     
                     <li> <a href="{{url('/gallery')}}" ><span> <i class="fas fa-book-open"></i> </span><span class="hide-menu">Gallery</span></a></li>
+                    
+                    <li> <a href="{{url('/contact')}}" ><span> <i class="fas fa-book-open"></i> </span><span class="hide-menu">Contact</span></a></li>
+
+                    
+                    <li> <a href="{{url('/project')}}" ><span> <i class="fas fa-code"></i></i> </span><span class="hide-menu">Projects</span></a></li>
+
+                    <li> <a href="{{url('/review')}}" ><span> <i class="far fa-comments"></i> </span><span class="hide-menu">Review</span></a></li>
                 </ul>
             </nav>
         </div>

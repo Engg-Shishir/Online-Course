@@ -10,10 +10,10 @@
                 <a class="nav-link nav-font" href="#">হোম </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-font" href="courses.html">কোর্স সমুহ </a>
+                <a class="nav-link nav-font" href="{{url('/Courses')}}">কোর্স সমুহ </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-font" href="projects.html">প্রোজেক্ট </a>
+                <a class="nav-link nav-font" href="{{url('/Projects')}}">প্রোজেক্ট </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link nav-font" href="blog.html">ব্লগ</a>

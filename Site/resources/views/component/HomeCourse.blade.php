@@ -4,7 +4,7 @@
     <div class="row">
         @foreach ($courseData as $data)
         <div class="col-md-4 thumbnail-container">
-                <img src="images/android.jpg" alt="Avatar" class="thumbnail-image ">
+                <img src="{{$data['course_img']}}" alt="Avatar" class="thumbnail-image ">
                 <div class="thumbnail-middle">
                     <h1 class="thumbnail-title"> {{$data['course_name']}}</h1>
                     <h1 class="thumbnail-subtitle">{{$data['course_des']}}</h1>

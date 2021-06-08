@@ -7,6 +7,9 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CourseCntroller;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,3 +85,36 @@ Route::get('/LoadMore/{id}', [PhotoController::class,'LoadMore'])->middleware('l
 // Delete Photo 
 Route::post('/deletePhoto', [PhotoController::class,'deletePhoto'])->middleware('loginCheck');
 
+
+
+
+
+
+// Admin Panel Projects Management
+Route::get('/contact',  [ContactController::class,'ContactIndex'])->middleware('loginCheck');
+
+Route::get('/getContactData',  [ContactController::class,'getContactData'])->middleware('loginCheck');
+Route::post('/ContactDelete',  [ContactController::class,'ContactDelete'])->middleware('loginCheck');
+
+
+
+
+
+// Admin Panel Projects Management
+Route::get('/project',  [ProjectController::class,'ProjectIndex'])->middleware('loginCheck');
+Route::get('/getProjectData',  [ProjectController::class,'getProjectData'])->middleware('loginCheck');
+Route::post('/projectDetails',  [ProjectController::class,'getProjectDetails'])->middleware('loginCheck');
+Route::post('/projectDelete',  [ProjectController::class,'ProjectDelete'])->middleware('loginCheck');
+Route::post('/projectUpdate',  [ProjectController::class,'ProjectUpdate'])->middleware('loginCheck');
+Route::post('/projectAdd',  [ReviewController::class,'ProjectAdd'])->middleware('loginCheck');
+
+
+
+
+// Admin Panel Review Management
+Route::get('/review',  [ReviewController::class,'ReviewIndex'])->middleware('loginCheck');
+Route::get('/getReviewData',  [ReviewController::class,'getReviewData'])->middleware('loginCheck');
+Route::post('/ReviewDetails',  [ReviewController::class,'getReviewDetails'])->middleware('loginCheck');
+Route::post('/ReviewDelete',  [ReviewController::class,'ReviewDelete'])->middleware('loginCheck');
+Route::post('/ReviewUpdate',  [ReviewController::class,'ReviewUpdate'])->middleware('loginCheck');
+Route::post('/ReviewAdd',  [ReviewController::class,'ReviewAdd'])->middleware('loginCheck');
