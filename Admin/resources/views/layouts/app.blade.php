@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
     <link rel="stylesheet" href="{{asset('css/datatables.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/datatables-select.min.css')}}">
+    <script src="{{ asset('node_modules/tinymce/tinymce.min.js') }}"></script>
 
 </head>
 <body class="fix-header fix-sidebar">
@@ -44,6 +45,10 @@
     <script type="text/javascript" src="{{asset('js/datatables-select.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/custom.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/axios.min.js')}}"></script>
+    
+ 
+
+
     
     {{-- Here show required javascript file for specific blade.php file --}}
     @yield('script')

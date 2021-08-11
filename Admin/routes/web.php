@@ -10,6 +10,8 @@ use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TermsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -118,3 +120,10 @@ Route::post('/ReviewDetails',  [ReviewController::class,'getReviewDetails'])->mi
 Route::post('/ReviewDelete',  [ReviewController::class,'ReviewDelete'])->middleware('loginCheck');
 Route::post('/ReviewUpdate',  [ReviewController::class,'ReviewUpdate'])->middleware('loginCheck');
 Route::post('/ReviewAdd',  [ReviewController::class,'ReviewAdd'])->middleware('loginCheck');
+
+
+
+
+
+// Admin Panel Review Management
+Route::get('/terms',  [TermsController::class,'terms'])->middleware('loginCheck');

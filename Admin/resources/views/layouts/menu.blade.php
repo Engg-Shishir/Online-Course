@@ -33,6 +33,8 @@
 
                     
                     <li> <a href="{{url('/project')}}" ><span> <i class="fas fa-code"></i></i> </span><span class="hide-menu">Projects</span></a></li>
+                    
+                    <li> <a href="{{url('/terms')}}" ><span> <i class="fas fa-code"></i></i> </span><span class="hide-menu">Terms & Condition</span></a></li>
 
                     <li> <a href="{{url('/review')}}" ><span> <i class="far fa-comments"></i> </span><span class="hide-menu">Review</span></a></li>
                 </ul>
